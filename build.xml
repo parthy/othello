@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="run" name="Create Runnable Jar for Project Othello">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <path id="classpath">
+                <fileset dir="dist/lib">
+                        <include name="*.jar" />
+                </fileset>
+    </path>
+
+    <target name="compile" depends="clean">
+                <mkdir dir="bin" />
+                <javac  srcdir="src"
+                                destdir="bin"
+                                source="1.6"
+                                target="1.6"
+                                encoding="utf8">
+                        <classpath refid="classpath" />
+                </javac>
+        </target>
+    <target name="create_run_jar" depends="compile">
+        <jar destfile="dist/Othello.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Built-By" value="Markus Partheymueller" />
+                <attribute name="Main-Class" value="Main"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="dist/lib/othellolib.jar"/>
+        </jar>
+    </target>
+
+    <target name="run" depends="create_run_jar">
+    	<java jar="dist/Othello.jar" fork="true"/>
+    </target>
+
+    <target name="clean">
+    	<delete file="dist/Othello.jar"/>
+    	<delete dir="bin"/>
+    </target>
+</project>
